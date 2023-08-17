@@ -1,0 +1,42 @@
+# Fortran compiler
+# FC = lf95
+# FC = ifort
+FC = /opt/rh/devtoolset-2/root/usr/bin/gfortran
+
+# Suffix for machine
+# M = $(FC)
+M = gfortran
+
+# Fortran compiler options
+# FOPTS = -g --chk --info
+FOPTS = -g
+
+# C compiler
+# CC = gcc
+CC = /opt/rh/devtoolset-2/root/usr/bin/gcc
+
+# C compiler options
+COPTS = -g
+
+# Options for the compiler doing the linking
+# LDOPTS = -g --staticlink
+LDOPTS = -g -Bstatic
+
+# Extension for object files
+O = o
+
+# Extension for executable files
+E =
+
+FAFTER = | hl
+
+OBJS = to_simh_direct.$O bcd_to_ascii_m.$O machine_$M.$O
+
+.SUFFIXES:
+.SUFFIXES: .f90 .$O
+
+.f90.$O:
+	$(FC) -c $(FOPTS) $< 2>&1 $(FAFTER)
+
+to_simh_direct$E: $(OBJS)
+	$(FC) $(LDOPTS) -o to_simh_direct$E $(OBJS)
